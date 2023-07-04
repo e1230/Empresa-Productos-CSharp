@@ -15,7 +15,7 @@ public class Context : DbContext
     List<User> userInit = new List<User>();
     userInit.Add(new User()
     {
-      Nit = Guid.Parse("1013"),
+      Nit = "1013",
       Name = "Edgar",
       UserName = "E1230",
       Password = "850518",
@@ -23,7 +23,7 @@ public class Context : DbContext
     });
     userInit.Add(new User()
     {
-      Nit = Guid.Parse("8080"),
+      Nit = "8080",
       Name = "Jose",
       UserName = "J87",
       Password = "12xx",
@@ -31,7 +31,7 @@ public class Context : DbContext
     });
     userInit.Add(new User()
     {
-      Nit = Guid.Parse("1398"),
+      Nit = "1398",
       Name = "Diana",
       UserName = "DIANA",
       Password = "asd85",
@@ -50,14 +50,14 @@ public class Context : DbContext
     List<Supplier> supplierInit = new List<Supplier>();
     supplierInit.Add(new Supplier()
     {
-      Nit = Guid.Parse("9027"),
+      Nit = "9027",
       Name = "Ana",
       Cel = "3101285739",
       Email = "ana@correo.com"
     });
     supplierInit.Add(new Supplier()
     {
-      Nit = Guid.Parse("2271"),
+      Nit = "2271",
       Name = "Manuel",
       Tel = "6017922798",
       Cel = "3158429046",
@@ -77,7 +77,7 @@ public class Context : DbContext
     productInit.Add(new Product()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8100"),
-      SupplierId = Guid.Parse("9027"),
+      SupplierId = "9027",
       Name = "Televisor",
       Price = 1200000,
       CreationDate = DateTime.Now,
@@ -85,7 +85,7 @@ public class Context : DbContext
     productInit.Add(new Product()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8101"),
-      SupplierId = Guid.Parse("9027"),
+      SupplierId = "9027",
       Name = "Computador",
       Price = 1800000,
       CreationDate = DateTime.Now,
@@ -93,7 +93,7 @@ public class Context : DbContext
     productInit.Add(new Product()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8102"),
-      SupplierId = Guid.Parse("9027"),
+      SupplierId = "9027",
       Name = "Equipo de sonido",
       Price = 900000,
       CreationDate = DateTime.Now,
@@ -101,7 +101,7 @@ public class Context : DbContext
     productInit.Add(new Product()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8103"),
-      SupplierId = Guid.Parse("2271"),
+      SupplierId = "2271",
       Name = "Cortinas",
       Price = 250000,
       CreationDate = DateTime.Now,
@@ -109,7 +109,7 @@ public class Context : DbContext
     productInit.Add(new Product()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8104"),
-      SupplierId = Guid.Parse("2271"),
+      SupplierId = "2271",
       Name = "Armario",
       Price = 900000,
       CreationDate = DateTime.Now,
@@ -129,7 +129,7 @@ public class Context : DbContext
     saleInit.Add(new Sale()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0e8100"),
-      UserNit = Guid.Parse("8080"),
+      UserNit = "8080",
       ProductId = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8100"),
       Amount = 2,
       Tax = Tax.Tax19Percent,
@@ -139,7 +139,7 @@ public class Context : DbContext
     saleInit.Add(new Sale()
     {
       Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0e8101"),
-      UserNit = Guid.Parse("1398"),
+      UserNit = "1398",
       ProductId = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8101"),
       Amount = 1,
       Tax = Tax.Tax19Percent,

@@ -2,7 +2,7 @@ namespace Empresa_Productos.Models;
 
 public class Supplier
 {
-  public Guid Nit { get; set; }
+  public required string Nit { get; set; }
   public required string Name { get; set; }
   public string? Tel { get; set; }
   public string? Cel { get; set; }
