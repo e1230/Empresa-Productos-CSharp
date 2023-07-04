@@ -12,6 +12,31 @@ public class Context : DbContext
   public Context(DbContextOptions<Context> options) : base(options) { }
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    List<User> userInit = new List<User>();
+    userInit.Add(new User()
+    {
+      Nit = Guid.Parse("1013"),
+      Name = "Edgar",
+      UserName = "E1230",
+      Password = "850518",
+      Role = Role.Admin
+    });
+    userInit.Add(new User()
+    {
+      Nit = Guid.Parse("8080"),
+      Name = "Jose",
+      UserName = "J87",
+      Password = "12xx",
+      Role = Role.Vendor
+    });
+    userInit.Add(new User()
+    {
+      Nit = Guid.Parse("1398"),
+      Name = "Diana",
+      UserName = "DIANA",
+      Password = "asd85",
+      Role = Role.Vendor
+    });
     modelBuilder.Entity<User>(user =>
     {
       user.ToTable("User");
@@ -20,6 +45,23 @@ public class Context : DbContext
       user.Property(p => p.UserName).IsRequired();
       user.Property(p => p.Password).IsRequired();
       user.Property(p => p.Role);
+      user.HasData(userInit);
+    });
+    List<Supplier> supplierInit = new List<Supplier>();
+    supplierInit.Add(new Supplier()
+    {
+      Nit = Guid.Parse("9027"),
+      Name = "Ana",
+      Cel = "3101285739",
+      Email = "ana@correo.com"
+    });
+    supplierInit.Add(new Supplier()
+    {
+      Nit = Guid.Parse("2271"),
+      Name = "Manuel",
+      Tel = "6017922798",
+      Cel = "3158429046",
+      Email = "manuel@correo.com"
     });
     modelBuilder.Entity<Supplier>(supplier =>
     {
@@ -29,6 +71,48 @@ public class Context : DbContext
       supplier.Property(p => p.Tel).IsRequired(false);
       supplier.Property(p => p.Cel).IsRequired(false);
       supplier.Property(p => p.Email).IsRequired(false);
+      supplier.HasData(supplierInit);
+    });
+    List<Product> productInit = new List<Product>();
+    productInit.Add(new Product()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8100"),
+      SupplierId = Guid.Parse("9027"),
+      Name = "Televisor",
+      Price = 1200000,
+      CreationDate = DateTime.Now,
+    });
+    productInit.Add(new Product()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8101"),
+      SupplierId = Guid.Parse("9027"),
+      Name = "Computador",
+      Price = 1800000,
+      CreationDate = DateTime.Now,
+    });
+    productInit.Add(new Product()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8102"),
+      SupplierId = Guid.Parse("9027"),
+      Name = "Equipo de sonido",
+      Price = 900000,
+      CreationDate = DateTime.Now,
+    });
+    productInit.Add(new Product()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8103"),
+      SupplierId = Guid.Parse("2271"),
+      Name = "Cortinas",
+      Price = 250000,
+      CreationDate = DateTime.Now,
+    });
+    productInit.Add(new Product()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8104"),
+      SupplierId = Guid.Parse("2271"),
+      Name = "Armario",
+      Price = 900000,
+      CreationDate = DateTime.Now,
     });
     modelBuilder.Entity<Product>(product =>
     {
@@ -39,6 +123,28 @@ public class Context : DbContext
       product.Property(p => p.CreationDate);
       product.Property(p => p.Photo_url).IsRequired(false);
       product.HasOne(p => p.Supplier).WithMany(p => p.Products).HasForeignKey(p => p.SupplierId);
+      product.HasData(productInit);
+    });
+    List<Sale> saleInit = new List<Sale>();
+    saleInit.Add(new Sale()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0e8100"),
+      UserNit = Guid.Parse("8080"),
+      ProductId = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8100"),
+      Amount = 2,
+      Tax = Tax.Tax19Percent,
+      SaleDate = DateTime.Now,
+      FinalPrice = 2400000
+    });
+    saleInit.Add(new Sale()
+    {
+      Id = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0e8101"),
+      UserNit = Guid.Parse("1398"),
+      ProductId = Guid.Parse("f7d31d43-485b-4499-9502-97c3cf0c8101"),
+      Amount = 1,
+      Tax = Tax.Tax19Percent,
+      SaleDate = DateTime.Now,
+      FinalPrice = 1800000
     });
     modelBuilder.Entity<Sale>(sale =>
     {
@@ -50,6 +156,7 @@ public class Context : DbContext
       sale.Property(p => p.FinalPrice);
       sale.HasOne(p => p.User).WithMany(p => p.Sales).HasForeignKey(p => p.UserNit);
       sale.HasOne(p => p.Product).WithMany(p => p.Sales).HasForeignKey(p => p.ProductId);
+      sale.HasData(saleInit);
     });
   }
 }

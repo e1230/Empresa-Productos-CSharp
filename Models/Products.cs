@@ -8,7 +8,7 @@ public class Product
   public int Price { get; set; }
   public DateTime CreationDate { get; set; }
   public string? Photo_url { get; set; }
-  public virtual required Supplier Supplier { get; set; }
+  public virtual Supplier Supplier { get; set; }
   public virtual ICollection<Sale>? Sales { get; set; }
 
 }

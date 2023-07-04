@@ -9,8 +9,8 @@ public class Sale
   public Tax Tax { get; set; }
   public DateTime SaleDate { get; set; }
   public double FinalPrice { get; set; }
-  public virtual required User User { get; set; }
-  public virtual required Product Product { get; set; }
+  public virtual User User { get; set; }
+  public virtual Product Product { get; set; }
 }
 
 public enum Tax
