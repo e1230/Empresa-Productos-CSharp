@@ -3,6 +3,8 @@ namespace Empresa_Productos.Models;
 public class Sale
 {
   public Guid Id { get; set; }
+  public Guid UserNit { get; set; }
+  public Guid ProductId { get; set; }
   public int amount { get; set; }
   public Tax Tax { get; set; }
   public DateTime SaleDate { get; set; }
