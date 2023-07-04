@@ -7,6 +7,8 @@ public class Context : DbContext
 {
   public DbSet<User> Users { get; set; }
   public DbSet<Supplier> Suppliers { get; set; }
+  public DbSet<Product> Products { get; set; }
+  public DbSet<Sale> Sales { get; set; }
   public Context(DbContextOptions<Context> options) : base(options) { }
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -42,10 +44,10 @@ public class Context : DbContext
     {
       sale.ToTable("Sale");
       sale.HasKey(p => p.Id);
-      sale.Property(p => p.amount);
+      sale.Property(p => p.Amount);
       sale.Property(p => p.Tax);
       sale.Property(p => p.SaleDate);
-      sale.Property(p => p.finalPrice);
+      sale.Property(p => p.FinalPrice);
       sale.HasOne(p => p.User).WithMany(p => p.Sales).HasForeignKey(p => p.UserNit);
       sale.HasOne(p => p.Product).WithMany(p => p.Sales).HasForeignKey(p => p.ProductId);
     });
