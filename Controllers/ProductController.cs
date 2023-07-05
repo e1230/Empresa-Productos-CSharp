@@ -15,26 +15,68 @@ public class ProductController : ControllerBase
   }
 
   [HttpGet]
-  public IActionResult Get()
+  public async Task<IActionResult> Get()
   {
-    return Ok(productService.Get());
+    try
+    {
+      var response = await productService.Get();
+      return Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
+  }
+  [HttpGet("{id}")]
+  public async Task<IActionResult> GetById(Guid id)
+  {
+    try
+    {
+      var response = await productService.GetById(id);
+      return Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPost]
-  public IActionResult Post([FromBody] Product product)
+  public async Task<IActionResult> Post([FromBody] Product product)
   {
-    productService.Save(product);
-    return Ok();
+    try
+    {
+      await productService.Save(product);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPut("{id}")]
-  public IActionResult Put(Guid id, [FromBody] Product product)
+  public async Task<IActionResult> Put(Guid id, [FromBody] Product product)
   {
-    productService.Update(product, id);
-    return Ok();
+    try
+    {
+      await productService.Update(product, id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpDelete("{id}")]
-  public IActionResult Delete(Guid id)
+  public async Task<IActionResult> Delete(Guid id)
   {
-    productService.Delete(id);
-    return Ok();
+    try
+    {
+      await productService.Delete(id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
 }

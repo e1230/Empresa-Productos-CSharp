@@ -15,26 +15,55 @@ public class SupplierController : ControllerBase
   }
 
   [HttpGet]
-  public IActionResult Get()
+  public async Task<IActionResult> Get()
   {
-    return Ok(supplierService.Get());
+    try
+    {
+      var response = await supplierService.Get();
+      return Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPost]
-  public IActionResult Post([FromBody] Supplier supplier)
+  public async Task<IActionResult> Post([FromBody] Supplier supplier)
   {
-    supplierService.Save(supplier);
-    return Ok();
+    try
+    {
+      await supplierService.Save(supplier);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPut("{id}")]
-  public IActionResult Put(Guid id, [FromBody] Supplier supplier)
+  public async Task<IActionResult> Put(string id, [FromBody] Supplier supplier)
   {
-    supplierService.Update(supplier, id);
-    return Ok();
+    try
+    {
+      await supplierService.Update(supplier, id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpDelete("{id}")]
-  public IActionResult Delete(Guid id)
+  public async Task<IActionResult> Delete(string id)
   {
-    supplierService.Delete(id);
-    return Ok();
+    try
+    {
+      await supplierService.Delete(id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
 }

@@ -17,11 +17,6 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 
 var app = builder.Build();
-// app.MapGet("/", async ([FromServices] Context dbContext) =>
-// {
-//   dbContext.Database.EnsureCreated();
-//   return Results.Ok();
-// });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -15,26 +15,55 @@ public class UserController : ControllerBase
   }
 
   [HttpGet]
-  public IActionResult Get()
+  public async Task<IActionResult> Get()
   {
-    return Ok(userService.Get());
+    try
+    {
+      var response = await userService.Get();
+      return Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPost]
-  public IActionResult Post([FromBody] User user)
+  public async Task<IActionResult> Post([FromBody] User user)
   {
-    userService.Save(user);
-    return Ok();
+    try
+    {
+      await userService.Save(user);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPut("{id}")]
-  public IActionResult Put(Guid id, [FromBody] User user)
+  public async Task<IActionResult> Put(string id, [FromBody] User user)
   {
-    userService.Update(user, id);
-    return Ok();
+    try
+    {
+      await userService.Update(user, id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpDelete("{id}")]
-  public IActionResult Delete(Guid id)
+  public async Task<IActionResult> Delete(string id)
   {
-    userService.Delete(id);
-    return Ok();
+    try
+    {
+      await userService.Delete(id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
 }

@@ -15,26 +15,56 @@ public class SaleController : ControllerBase
   }
 
   [HttpGet]
-  public IActionResult Get()
+  public async Task<IActionResult> Get()
   {
-    return Ok(saleService.Get());
+    try
+    {
+      var response = await saleService.Get();
+      return Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpPost]
-  public IActionResult Post([FromBody] Sale sale)
+  public async Task<IActionResult> Post([FromBody] Sale sale)
   {
-    saleService.Save(sale);
-    return Ok();
+    try
+    {
+      await saleService.Save(sale);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
+
   [HttpPut("{id}")]
-  public IActionResult Put(Guid id, [FromBody] Sale sale)
+  public async Task<IActionResult> Put(Guid id, [FromBody] Sale sale)
   {
-    saleService.Update(sale, id);
-    return Ok();
+    try
+    {
+      await saleService.Update(sale, id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
   [HttpDelete("{id}")]
-  public IActionResult Delete(Guid id)
+  public async Task<IActionResult> Delete(Guid id)
   {
-    saleService.Delete(id);
-    return Ok();
+    try
+    {
+      await saleService.Delete(id);
+      return Ok();
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
   }
 }
