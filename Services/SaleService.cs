@@ -17,7 +17,6 @@ public class SaleService : ISaleService
   {
     sale.Id = Guid.NewGuid();
     sale.SaleDate = DateTime.Now;
-    // sale.FinalPrice = 0;
     var product = await context.Products.FindAsync(sale.ProductId);
     if (product != null)
     {
