@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Empresa_Productos.Services;
 using Empresa_Productos.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Empresa_Productos.Controller;
 
 [Route("api/[Controller]")]
+[Authorize(Roles = "Admin")]
 public class SupplierController : ControllerBase
 {
   protected readonly ISupplierService supplierService;

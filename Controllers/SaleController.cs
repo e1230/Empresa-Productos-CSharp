@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Empresa_Productos.Services;
 using Empresa_Productos.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Empresa_Productos.Controller;
 
@@ -15,6 +16,7 @@ public class SaleController : ControllerBase
   }
 
   [HttpGet]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> Get()
   {
     try
@@ -28,6 +30,7 @@ public class SaleController : ControllerBase
     }
   }
   [HttpGet("date-range")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> GetSalesByDateRange([FromQuery] string startDate, [FromQuery] string endDate)
   {
     try
@@ -41,6 +44,7 @@ public class SaleController : ControllerBase
     }
   }
   [HttpGet("topsellers")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> GetTopSellersByDateRange([FromQuery] string startDate, [FromQuery] string endDate)
   {
     try
@@ -54,6 +58,7 @@ public class SaleController : ControllerBase
     }
   }
   [HttpGet("topproducts")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> GetTopSellingProductsByDateRange([FromQuery] string startDate, [FromQuery] string endDate)
   {
     try
@@ -67,6 +72,7 @@ public class SaleController : ControllerBase
     }
   }
   [HttpPost]
+  [Authorize]
   public async Task<IActionResult> Post([FromBody] Sale sale)
   {
     try
@@ -81,6 +87,7 @@ public class SaleController : ControllerBase
   }
 
   [HttpPut("{id}")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> Put(Guid id, [FromBody] Sale sale)
   {
     try
@@ -94,6 +101,7 @@ public class SaleController : ControllerBase
     }
   }
   [HttpDelete("{id}")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> Delete(Guid id)
   {
     try
