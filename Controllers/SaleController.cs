@@ -27,6 +27,45 @@ public class SaleController : ControllerBase
       return NotFound(ex.Message);
     }
   }
+  [HttpGet("date-range")]
+  public async Task<IActionResult> GetSalesByDateRange([FromQuery] string startDate, [FromQuery] string endDate)
+  {
+    try
+    {
+      var sales = await saleService.GetByDateRange(startDate, endDate);
+      return Ok(sales);
+    }
+    catch (ArgumentException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+  }
+  [HttpGet("topsellers")]
+  public async Task<IActionResult> GetTopSellersByDateRange([FromQuery] string startDate, [FromQuery] string endDate)
+  {
+    try
+    {
+      var topSellers = await saleService.GetTopSellingUsersByDateRange(startDate, endDate);
+      return Ok(topSellers);
+    }
+    catch (ArgumentException e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpGet("topproducts")]
+  public async Task<IActionResult> GetTopSellingProductsByDateRange([FromQuery] string startDate, [FromQuery] string endDate)
+  {
+    try
+    {
+      var topProducts = await saleService.GetTopSellingProductsByDateRange(startDate, endDate);
+      return Ok(topProducts);
+    }
+    catch (ArgumentException e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
   [HttpPost]
   public async Task<IActionResult> Post([FromBody] Sale sale)
   {

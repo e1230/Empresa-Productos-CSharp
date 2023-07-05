@@ -40,6 +40,19 @@ public class ProductController : ControllerBase
       return NotFound(ex.Message);
     }
   }
+  [HttpGet("{id}/info")]
+  public async Task<IActionResult> GetProductWithSupplierInfoById(Guid id)
+  {
+    try
+    {
+      var response = await productService.GetProductWithSupplierInfoById(id);
+      return Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(ex.Message);
+    }
+  }
   [HttpPost]
   public async Task<IActionResult> Post([FromBody] Product product)
   {

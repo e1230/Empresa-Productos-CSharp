@@ -69,6 +69,93 @@ public class SaleService : ISaleService
     }
 
   }
+
+  public async Task<IEnumerable<Sale>> GetByDateRange(string startDate, string endDate)
+  {
+    DateTime parsedStartDate;
+    DateTime parsedEndDate;
+
+    if (!DateTime.TryParse(startDate, out parsedStartDate) || !DateTime.TryParse(endDate, out parsedEndDate))
+    {
+      throw new ArgumentException("Invalid date format. Please use the format yyyy-MM-dd.");
+    }
+
+    parsedStartDate = parsedStartDate.Date;
+    parsedEndDate = parsedEndDate.Date.AddDays(1).AddMilliseconds(-1);
+
+    return await context.Sales
+        .Where(s => s.SaleDate >= parsedStartDate && s.SaleDate <= parsedEndDate)
+        .Include(p => p.User)
+        .Include(p => p.Product)
+        .ThenInclude(p => p.Supplier)
+        .ToListAsync();
+  }
+
+  public async Task<IEnumerable<object>> GetTopSellingUsersByDateRange(string startDate, string endDate)
+  {
+    DateTime parsedStartDate;
+    DateTime parsedEndDate;
+
+    if (!DateTime.TryParse(startDate, out parsedStartDate) || !DateTime.TryParse(endDate, out parsedEndDate))
+    {
+      throw new ArgumentException("Invalid date format. Please use the format yyyy-MM-dd.");
+    }
+
+    parsedStartDate = parsedStartDate.Date;
+    parsedEndDate = parsedEndDate.Date.AddDays(1).AddMilliseconds(-1);
+
+    var topSellingUsers = await context.Sales
+        .Where(s => s.SaleDate >= parsedStartDate && s.SaleDate <= parsedEndDate)
+        .GroupBy(s => s.User.Name)
+        .Select(group => new
+        {
+          Name = group.Key,
+          TotalSales = group.Sum(s => s.FinalPrice) ?? 0
+        })
+        .OrderByDescending(s => s.TotalSales)
+        .ToListAsync();
+
+    return topSellingUsers.Select(user => new
+    {
+      Name = user.Name,
+      TotalSales = user.TotalSales
+    });
+  }
+
+
+  public async Task<IEnumerable<object>> GetTopSellingProductsByDateRange(string startDate, string endDate)
+  {
+    DateTime parsedStartDate;
+    DateTime parsedEndDate;
+
+    if (!DateTime.TryParse(startDate, out parsedStartDate) || !DateTime.TryParse(endDate, out parsedEndDate))
+    {
+      throw new ArgumentException("Invalid date format. Please use the format yyyy-MM-dd.");
+    }
+
+    parsedStartDate = parsedStartDate.Date;
+    parsedEndDate = parsedEndDate.Date.AddDays(1).AddMilliseconds(-1);
+
+    var topSellingProducts = await context.Sales
+        .Where(s => s.SaleDate >= parsedStartDate && s.SaleDate <= parsedEndDate)
+        .GroupBy(s => s.Product!.Name)
+        .Select(group => new
+        {
+          Name = group.Key,
+          TotalAmount = group.Sum(s => s.Amount) ?? 0
+        })
+        .OrderByDescending(s => s.TotalAmount)
+        .ToListAsync();
+
+    return topSellingProducts.Select(product => new
+    {
+      ProductName = product.Name,
+      TotalAmount = product.TotalAmount
+    });
+  }
+
+
+
 }
 
 public interface ISaleService
@@ -77,4 +164,8 @@ public interface ISaleService
   Task Save(Sale sale);
   Task Update(Sale sale, Guid id);
   Task Delete(Guid id);
+  Task<IEnumerable<Sale>> GetByDateRange(string startDate, string endDate);
+  Task<IEnumerable<object>> GetTopSellingUsersByDateRange(string startDate, string endDate);
+  Task<IEnumerable<object>> GetTopSellingProductsByDateRange(string startDate, string endDate);
+
 }

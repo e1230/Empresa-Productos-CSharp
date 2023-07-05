@@ -17,6 +17,32 @@ public class ProductService : IProductService
   {
     return await context.Products.Include(p => p.Supplier).FirstOrDefaultAsync(p => p.Id == id);
   }
+  public async Task<object> GetProductWithSupplierInfoById(Guid id)
+  {
+    var product = await context.Products
+        .Include(p => p.Supplier)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (product != null && product.Supplier != null)
+    {
+      var result = new
+      {
+        ProductName = product.Name,
+        ProductCode = product.Id.ToString(),
+        ProductValue = product.Price ?? 0,
+        SupplierName = product.Supplier.Name,
+        SupplierEmail = product.Supplier.Email,
+        SupplierPhone = product.Supplier.Cel
+      };
+
+      return result;
+    }
+    else
+    {
+      throw new InvalidOperationException("Product or Supplier Not Found.");
+    }
+  }
+
   public async Task Save(Product product)
   {
     product.Id = Guid.NewGuid();
@@ -61,6 +87,7 @@ public interface IProductService
 {
   Task<IEnumerable<Product>> Get();
   Task<Product> GetById(Guid id);
+  Task<object> GetProductWithSupplierInfoById(Guid id);
   Task Save(Product product);
   Task Update(Product product, Guid id);
   Task Delete(Guid id);
